@@ -1,0 +1,10 @@
+.wrapper {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 24px;
+
+    margin-top: 24px;
+    padding: 0px 16px;
+
+    list-style-type: none;
+}
