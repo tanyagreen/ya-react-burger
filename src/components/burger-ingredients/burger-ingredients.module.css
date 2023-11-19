@@ -1,0 +1,14 @@
+.wrapper {
+    margin-left:0px;
+    width: 620px;
+}
+
+.tabsWrapper {
+    display: flex;
+}
+
+.mainWrapper {
+    height: calc(100vh - 320px);
+    overflow-y: scroll;
+}
+

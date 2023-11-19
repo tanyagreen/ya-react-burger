@@ -2651,6 +2651,14 @@
   resolved "https://registry.npmjs.org/@xtuc/long/-/long-4.2.2.tgz"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
+"@ya.praktikum/react-developer-burger-ui-components@^1.14.0":
+  version "1.14.0"
+  resolved "https://registry.npmjs.org/@ya.praktikum/react-developer-burger-ui-components/-/react-developer-burger-ui-components-1.14.0.tgz"
+  integrity sha512-SoGRRUaNg7Zmu6dL2sqPn87OwNye/vuE/D6U0DzkGkeTedo/EryEvV8xGsrMyWmjBr87LJ8YlrI8PNHHSn+8/A==
+  dependencies:
+    clsx "^1.1.1"
+    plural-ru "^2.0.2"
+
 abab@^2.0.3, abab@^2.0.5:
   version "2.0.6"
   resolved "https://registry.npmjs.org/abab/-/abab-2.0.6.tgz"
@@ -3481,6 +3489,11 @@ cliui@^7.0.2:
     string-width "^4.2.0"
     strip-ansi "^6.0.0"
     wrap-ansi "^7.0.0"
+
+clsx@^1.1.1:
+  version "1.2.1"
+  resolved "https://registry.npmjs.org/clsx/-/clsx-1.2.1.tgz"
+  integrity sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==
 
 co@^4.6.0:
   version "4.6.0"
@@ -7618,6 +7631,11 @@ pkg-up@^3.1.0:
   dependencies:
     find-up "^3.0.0"
 
+plural-ru@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.npmjs.org/plural-ru/-/plural-ru-2.0.2.tgz"
+  integrity sha512-zmQv/tMG7fjF8r8JJ2U1p9dP1RgQ54RnP9nOM9dJHlcWU4mVmesKU9RgouxvyrCIU7lwOtGBYJ6cBa00UlzUZQ==
+
 postcss-attribute-case-insensitive@^5.0.2:
   version "5.0.2"
   resolved "https://registry.npmjs.org/postcss-attribute-case-insensitive/-/postcss-attribute-case-insensitive-5.0.2.tgz"
@@ -8383,7 +8401,7 @@ react-dev-utils@^12.0.1:
     strip-ansi "^6.0.1"
     text-table "^0.2.0"
 
-react-dom@^18.0.0, react-dom@^18.2.0:
+react-dom@^18.0.0, react-dom@^18.2.0, "react-dom@16.x || 17.x || 18.x":
   version "18.2.0"
   resolved "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz"
   integrity sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==
@@ -8471,7 +8489,7 @@ react-scripts@5.0.1:
   optionalDependencies:
     fsevents "^2.3.2"
 
-react@^18.0.0, react@^18.2.0, "react@>= 16":
+react@^18.0.0, react@^18.2.0, "react@>= 16", "react@16.x || 17.x || 18.x":
   version "18.2.0"
   resolved "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
