@@ -14,7 +14,10 @@ function IngredientDetail({title, text}) {
 
 IngredientDetail.propTypes = {
     title: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
+    text: PropTypes.PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+    ]).isRequired
 };
 
 export default IngredientDetail;

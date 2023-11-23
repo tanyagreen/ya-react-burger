@@ -5,8 +5,8 @@ import BurgerIngredientsGroup from './bi-group/bi-group';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientType from '../../utils/data-prop-type';
 import Modal from '../modal/modal';
-import ModalOverlay from '../modal/modal-overlay/modal-overlay';
 import IngredientDetails from './ingredient-details/ingredient-details';
+import useOpenClose from '../../hooks/use-open-close';
 
 const tabs = [
     {
@@ -25,17 +25,12 @@ const tabs = [
 
 function BurgerIngredients(props) {
     const [currentTab, setCurrentTab] = React.useState(1);
-    const [openModal, setOpenModal] = React.useState(false);
+
     const clickedIngridient = React.useRef({});
 
-    const openModalHandler = React.useCallback((ingredient) => {
-        setOpenModal(true);
-        clickedIngridient.current = ingredient;
-    }, []);
-
-    const closeModalHandler = React.useCallback(() => {
-        setOpenModal(false);
-    }, []);
+    const {isOpen, open, close} = useOpenClose(false, {
+        onOpen: (ingredient) => clickedIngridient.current = ingredient,
+    });
 
     const buns = React.useMemo(() => props.data.filter((d) => d.type === 'bun'), [props.data]);
     const sauces = React.useMemo(() => props.data.filter((d) => d.type === 'sauce'), [props.data]);
@@ -60,17 +55,14 @@ function BurgerIngredients(props) {
                 })}
             </div>
             <div className={`${ingredientsStyles.mainWrapper} сute-scroll`}>
-                <BurgerIngredientsGroup title='Булки' data={buns} openModal={openModalHandler} />
-                <BurgerIngredientsGroup title='Соусы' data={sauces} openModal={openModalHandler} />
-                <BurgerIngredientsGroup title='Ингридиенты' data={mains} openModal={openModalHandler}/>
+                <BurgerIngredientsGroup title='Булки' data={buns} openModal={open} />
+                <BurgerIngredientsGroup title='Соусы' data={sauces} openModal={open} />
+                <BurgerIngredientsGroup title='Ингридиенты' data={mains} openModal={open}/>
             </div>
-            { openModal && 
-                <>
-                    <Modal title='Детали ингридиента' onClose={closeModalHandler}>
-                        <IngredientDetails ingredient={clickedIngridient.current}/>
-                    </Modal>
-                    <ModalOverlay onClose={closeModalHandler} /> 
-                </>
+            { isOpen && 
+                <Modal title='Детали ингридиента' onClose={close}>
+                    <IngredientDetails ingredient={clickedIngridient.current}/>
+                </Modal>
             }
         </div>
     );

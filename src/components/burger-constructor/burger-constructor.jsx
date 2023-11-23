@@ -3,21 +3,13 @@ import burgerContructorStyles from './burger-constructor.module.css';
 import PropTypes from 'prop-types';
 import { ConstructorElement, Button, DragIcon, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal';
-import ModalOverlay from '../modal/modal-overlay/modal-overlay';
 import OrderDetails from './order-details/order-details';
 import ingredientType from '../../utils/data-prop-type';
+import useOpenClose from '../../hooks/use-open-close';
 
 function BurgerConstructor(props) {
 
-    const [openModal, setOpenModal] = React.useState(false);
-
-    const openModalHandler = React.useCallback(() => {
-        setOpenModal(true);
-    }, []);
-
-    const closeModalHandler = React.useCallback(() => {
-        setOpenModal(false);
-    }, []);
+    const {isOpen, open, close } = useOpenClose();
 
     const staticBun = React.useMemo(() => props.data?.find(i => i._id === '643d69a5c3f7b9001cfa093c'), [props.data]);
     const notBun = React.useMemo(() => props.data?.filter((item) => item.type !== 'bun'), [props.data]);
@@ -68,15 +60,12 @@ function BurgerConstructor(props) {
                     <p className='text text_type_digits-medium'>610</p>
                     <CurrencyIcon type='primary' />
                 </div>
-                <Button htmlType='button' type='primary' size='large' onClick={openModalHandler}>
+                <Button htmlType='button' type='primary' size='large' onClick={open}>
                     Оформить заказ
                 </Button>
             </div>
-            { openModal && 
-                <>
-                    <Modal header={'hello'} onClose={closeModalHandler}><OrderDetails/></Modal>
-                    <ModalOverlay onClose={closeModalHandler} /> 
-                </>
+            { isOpen && 
+                <Modal header={'hello'} onClose={close}><OrderDetails/></Modal>
             }
         </div>
     );
