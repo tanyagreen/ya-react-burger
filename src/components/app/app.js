@@ -16,7 +16,7 @@ function App() {
 
     const getIngridients = async () => {
         setLoading(true);
-        fetch(INGRIDIENTS_URL)
+        await fetch(INGRIDIENTS_URL)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error(response.status);
@@ -26,12 +26,11 @@ function App() {
             })
             .then((data) => {
                 setData(data.data);
-                setLoading(false);
             })
             .catch((err) => {
                 console.log(err);
-                setLoading(false);
-            });
+            })
+            .finally(() => setLoading(false));
     };
 
     return (

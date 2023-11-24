@@ -12,7 +12,7 @@ const useOpenClose = (initOpen = false, { onOpen, onClose } = {}) => {
     };
 
     const open = useCallback(
-        ({ ...args }) => {
+        ({ ...args } = {}) => {
             setOpen(true);
             if (typeof onOpen === 'function') {
                 onOpen({ ...args });
@@ -22,7 +22,7 @@ const useOpenClose = (initOpen = false, { onOpen, onClose } = {}) => {
     );
 
     const close = useCallback(
-        ({ ...args }) => {
+        ({ ...args } = {}) => {
             setOpen(false);
             if (typeof onClose === 'function') {
                 onClose({ ...args });
