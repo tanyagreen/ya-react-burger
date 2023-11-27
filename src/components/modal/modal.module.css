@@ -1,0 +1,39 @@
+.wrapper {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.modal {
+    width: 720px;
+    margin: auto;
+    border-radius: 40px;
+    border: 1px solid rgba(76, 76, 255, 0.20);
+    background: #1C1C21;
+    opacity: 1;
+
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+
+    pointer-events: all;
+}
+
+.header {
+    display: flex;
+    flex-flow: row;
+
+    align-items: center;
+    justify-content: space-between;
+}
+
+.icon {
+    cursor: pointer;
+}
