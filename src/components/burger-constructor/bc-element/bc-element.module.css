@@ -1,0 +1,10 @@
+.dragIcon {
+    cursor: pointer;
+}
+
+.wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    gap: 8px;
+}

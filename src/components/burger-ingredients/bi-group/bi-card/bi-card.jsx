@@ -3,16 +3,30 @@ import biCardStyles from './bi-card.module.css';
 import PropTypes from 'prop-types';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientType from '../../../../utils/data-prop-type';
+import { useDispatch } from 'react-redux';
+import { select } from '../../../../services/details';
+import { useDrag } from 'react-dnd';
+import { IngredientKind } from '../../../../constants/ingredientKind';
+
 
 const BurgerIngredientsCard = React.memo((props) =>{
+
+    const dispatch = useDispatch();
     const { image, price, name } = props.data;
 
     const clickHandler = () => {
-        props.openModal(props.data);
+        dispatch(select(props.data));
     }
+
+    const [, ref] = useDrag(() => ({
+        type: props.data.type === IngredientKind.BUN ? IngredientKind.BUN : 'ingridient',
+        item: props.data,
+    }))
+
+
     return (
-        <section className={biCardStyles.wrapper} onClick={clickHandler}>
-            <img className='pl-4 pr-4' src={image} alt={name}/>
+        <section className={biCardStyles.wrapper} onClick={clickHandler} ref={ref} >
+            <img className='pl-4 pr-4' src={image} alt={name} />
             <span className={biCardStyles.price}>
                 <span className='text text_type_digits-default'>{price}</span>
                 <CurrencyIcon type='primary' />

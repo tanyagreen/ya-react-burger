@@ -1,10 +1,11 @@
 import React from 'react';
 import ingredientDetailsStyles from './ingredient-details.module.css';
 import IngredientDetail from './ingredient-detail'
-import ingredientType from '../../../utils/data-prop-type';
+import { useSelector } from 'react-redux';
+import { getSelectedIngredient } from '../../../services/details';
 
-function IngredientDetails(props) {
-    const { name, image_large, calories, proteins, fat, carbohydrates } = props.ingredient;
+function IngredientDetails() {
+    const { name, image_large, calories, proteins, fat, carbohydrates } = useSelector(getSelectedIngredient);
 
     return (
         <div className={ingredientDetailsStyles.wrapper}>
@@ -19,9 +20,5 @@ function IngredientDetails(props) {
         </div>
     );
 }
-
-IngredientDetails.propTypes = {
-    ingredient: ingredientType.isRequired,
-};
 
 export default IngredientDetails;
