@@ -1,48 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Header from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Loader from '../loader/loader';
 import appStyles from './app.module.css';
-import { INGRIDIENTS_URL } from '../../constants/urls';
+import { useSelector, useDispatch } from 'react-redux';
+import { getIngredients } from '../../services/ingredients';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
 
 function App() {
-    const [ingridients, setData] = useState([]);
-    const [isLoading, setLoading] = useState(false);
+    const dispatch = useDispatch();
+    const { ingredients, loading, error } = useSelector((store) => store.ingredients);
 
     useEffect(() => {
-        getIngridients();
-    }, []);
-
-    const getIngridients = async () => {
-        setLoading(true);
-        await fetch(INGRIDIENTS_URL)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error(response.status);
-                } else {
-                    return response.json();
-                }
-            })
-            .then((data) => {
-                setData(data.data);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-            .finally(() => setLoading(false));
-    };
+        dispatch(getIngredients());
+    }, [dispatch]);
 
     return (
         <>
             <Header />
-            {!isLoading && ingridients.length > 0 ? (
-                <main className={appStyles.main}>
-                    <BurgerIngredients data={ingridients} />
-                    <BurgerConstructor data={ingridients} />
-                </main>
-            ) : (
+            {loading ? (
                 <Loader />
+            ) : !loading && error ? (
+                <h2>{`Ошибка ${error}`}</h2>
+            ) : (
+                <DndProvider backend={HTML5Backend}>
+                    <main className={appStyles.main}>
+                        <BurgerIngredients />
+                        <BurgerConstructor data={ingredients} />
+                    </main>
+                </DndProvider>
             )}
         </>
     );

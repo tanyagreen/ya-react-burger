@@ -1,41 +1,65 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import ingredientsStyles from './burger-ingredients.module.css';
-import PropTypes from 'prop-types';
 import BurgerIngredientsGroup from './bi-group/bi-group';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import ingredientType from '../../utils/data-prop-type';
 import Modal from '../modal/modal';
 import IngredientDetails from './ingredient-details/ingredient-details';
-import useOpenClose from '../../hooks/use-open-close';
+import { IngredientKind } from '../../constants/ingredientKind';
+import { getIngredientsByType } from '../../services/ingredients';
+import { clear, getSelectedIngredient } from '../../services/details';
 
 const tabs = [
     {
-        id: 1,
+        id: IngredientKind.BUN,
         text: 'Булки',
     },
     {
-        id: 2,
-        text: 'Соусы',
-    },
-    {
-        id: 3,
+        id: IngredientKind.MAIN,
         text: 'Начинки',
     },
+    {
+        id: IngredientKind.SAUCE,
+        text: 'Соусы',
+    },
+
 ];
 
-function BurgerIngredients(props) {
-    const [currentTab, setCurrentTab] = React.useState(1);
 
-    const clickedIngridient = React.useRef({});
+function BurgerIngredients() {
 
-    const {isOpen, open, close} = useOpenClose(false, {
-        onOpen: (ingredient) => clickedIngridient.current = ingredient,
-    });
+    const [currentTab, setCurrentTab] = React.useState(IngredientKind.BUN);
 
-    const buns = React.useMemo(() => props.data.filter((d) => d.type === 'bun'), [props.data]);
-    const sauces = React.useMemo(() => props.data.filter((d) => d.type === 'sauce'), [props.data]);
-    const mains = React.useMemo(() => props.data.filter((d) => d.type === 'main'), [props.data])
+    const wrapperRef = React.useRef(null);
+    const groupsRef = React.useRef([]);
+    
+    const refCallback = React.useCallback((element) => {
+        if (element) {
+            groupsRef.current.push(element);
+        }
+      }, []);
 
+    const onScroll = React.useCallback(() => {
+        
+        const minLengthGroup = groupsRef.current.reduce(
+            (min, elem) => {
+                const numElem = Math.abs(wrapperRef.current.getBoundingClientRect().y - elem.getBoundingClientRect().y);
+                const minElem = Math.abs(wrapperRef.current.getBoundingClientRect().y - min.getBoundingClientRect().y); 
+               return (numElem < minElem ? elem : min)
+            }, groupsRef.current[0]
+        );
+
+        setCurrentTab(minLengthGroup.id)
+
+    }, []);
+
+    const dispatch = useDispatch();
+       
+    const selectedIngredient = useSelector(getSelectedIngredient);
+
+    const onClose = React.useCallback(() => {
+        dispatch(clear());
+    }, [dispatch]);
 
     return (
         <div className={`${ingredientsStyles.wrapper} mt-10`}>
@@ -46,30 +70,35 @@ function BurgerIngredients(props) {
                         <Tab
                             value={tab.id}
                             active={currentTab === tab.id}
-                            onClick={() => setCurrentTab(tab.id)}
                             key={tab.id}
+                            onClick={() => setCurrentTab(tab.id)}
                         >
                             {tab.text}
                         </Tab>
                     );
                 })}
             </div>
-            <div className={`${ingredientsStyles.mainWrapper} сute-scroll`}>
-                <BurgerIngredientsGroup title='Булки' data={buns} openModal={open} />
-                <BurgerIngredientsGroup title='Соусы' data={sauces} openModal={open} />
-                <BurgerIngredientsGroup title='Ингридиенты' data={mains} openModal={open}/>
+            <div className={`${ingredientsStyles.mainWrapper} сute-scroll`} ref={wrapperRef} onScroll={onScroll}>
+                {
+                    tabs.map(tab => {
+                        return (
+                            <BurgerIngredientsGroup 
+                                title={tab.text} 
+                                ref={refCallback} 
+                                id={tab.id} 
+                                key={tab.id}
+                            /> 
+                        );
+                    })
+                }
             </div>
-            { isOpen && 
-                <Modal title='Детали ингридиента' onClose={close}>
-                    <IngredientDetails ingredient={clickedIngridient.current}/>
+            { selectedIngredient &&
+                <Modal title='Детали ингридиента' onClose={onClose}>
+                    <IngredientDetails/>
                 </Modal>
             }
         </div>
     );
 }
-
-BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(ingredientType).isRequired,
-};
 
 export default BurgerIngredients;
