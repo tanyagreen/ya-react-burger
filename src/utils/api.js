@@ -1,6 +1,6 @@
 const baseUrl = 'https://norma.nomoreparties.space/api';
 
-const getResponse = (result) => {
+const checkResponse = (result) => {
     if (result.ok) {
         return result.json();
     }
@@ -8,16 +8,20 @@ const getResponse = (result) => {
     return Promise.reject(`Error: ${result.status}`);
 };
 
+const request = async (url, options = {}) => {
+    return fetch(url, options).then(checkResponse);
+};
+
 export const fetchIngridients = async () => {
-    return fetch(`${baseUrl}/ingredients`).then(getResponse);
+    return request(`${baseUrl}/ingredients`);
 };
 
 export const fetchOrder = async (ingridients) => {
-    return fetch(`${baseUrl}/orders`, {
+    return request(`${baseUrl}/orders`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
         },
         body: JSON.stringify(ingridients),
-    }).then(getResponse);
+    });
 };

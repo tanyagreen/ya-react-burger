@@ -18,6 +18,12 @@ export const getIngredientsByType = (type) =>
         (ingredients) => ingredients.filter((ingredient) => ingredient.type === type)
     );
 
+export const getIngredientById = (id) =>
+    createSelector(
+        (store) => store.ingredients.ingredients,
+        (ingredients) => ingredients.find((ingredient) => ingredient._id === id)
+    );
+
 export const ingredientsSlice = createSlice({
     name: 'ingredients',
     initialState: ingridientsInitialState,

@@ -2,27 +2,28 @@ import React from 'react';
 import biCardStyles from './bi-card.module.css';
 import PropTypes from 'prop-types';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import ingredientType from '../../../../utils/data-prop-type';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { select } from '../../../../services/details';
 import { useDrag } from 'react-dnd';
 import { IngredientKind } from '../../../../constants/ingredientKind';
+import { getIngredientById } from '../../../../services/ingredients';
 
 
 const BurgerIngredientsCard = React.memo((props) =>{
 
-    const dispatch = useDispatch();
-    const { image, price, name } = props.data;
+    const ingridient = useSelector(getIngredientById(props.ingridientId));
+    const { image, price, name } = ingridient;
+
+    const dispatch = useDispatch(); 
 
     const clickHandler = () => {
-        dispatch(select(props.data));
+        dispatch(select(ingridient));
     }
 
     const [, ref] = useDrag(() => ({
-        type: props.data.type === IngredientKind.BUN ? IngredientKind.BUN : 'ingridient',
-        item: props.data,
+        type: ingridient.type === IngredientKind.BUN ? IngredientKind.BUN : 'ingridient',
+        item: ingridient,
     }))
-
 
     return (
         <section className={biCardStyles.wrapper} onClick={clickHandler} ref={ref} >
@@ -39,7 +40,7 @@ const BurgerIngredientsCard = React.memo((props) =>{
 
 BurgerIngredientsCard.propTypes = {
     counter: PropTypes.number,
-    data: ingredientType.isRequired,
+    ingridientId: PropTypes.string.isRequired,
 };
 
 export default BurgerIngredientsCard;

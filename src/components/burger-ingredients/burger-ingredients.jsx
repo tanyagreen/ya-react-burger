@@ -54,13 +54,7 @@ function BurgerIngredients() {
     }, []);
 
     const dispatch = useDispatch();
-
-    const ingredients = {
-            [IngredientKind.BUN]: useSelector(getIngredientsByType(IngredientKind.BUN)),
-            [IngredientKind.MAIN]: useSelector(getIngredientsByType(IngredientKind.MAIN)),
-            [IngredientKind.SAUCE]: useSelector(getIngredientsByType(IngredientKind.SAUCE)),
-        }
-        
+       
     const selectedIngredient = useSelector(getSelectedIngredient);
 
     const onClose = React.useCallback(() => {
@@ -90,7 +84,6 @@ function BurgerIngredients() {
                         return (
                             <BurgerIngredientsGroup 
                                 title={tab.text} 
-                                data={ingredients[tab.id]} 
                                 ref={refCallback} 
                                 id={tab.id} 
                                 key={tab.id}

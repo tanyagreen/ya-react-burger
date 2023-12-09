@@ -7,7 +7,7 @@ import BurgerConstructorElement from './bc-element/bc-element';
 import { IngredientKind } from '../../constants/ingredientKind';
 import { useDrop } from 'react-dnd';
 import { useSelector, useDispatch } from 'react-redux';
-import { getBun, getConstructorIngredients, addItem, addBun, getTotalPrice } from '../../services/burger-constructor';
+import { getBun, getConstructorIngredients, addItem, addBun, getTotalPrice, clean } from '../../services/burger-constructor';
 import { v4 as uuidv4 } from 'uuid';
 import { setOrder, getOderNumber, cleanOrder } from '../../services/order';
 import { cleanError } from '../../services/order';
@@ -66,12 +66,14 @@ function BurgerConstructor() {
         )
     }
 
-    const onSubmit = React.useCallback(() => {
-        dispatch(setOrder([bun?._id, ...ingredients.map(i => i._id), bun?._id]));
+    const onSubmit = React.useCallback(async () => {
+        await dispatch(setOrder([bun?._id, ...ingredients.map(i => i._id), bun?._id]));
+        dispatch(clean());
+        
     }, [dispatch, bun, ingredients]);
 
     const onClose = React.useCallback(() => {
-        dispatch(cleanOrder())
+        dispatch(cleanOrder());
     }, [dispatch]);    
 
     return (
@@ -110,6 +112,7 @@ function BurgerConstructor() {
                     type='primary' 
                     size='large' 
                     onClick={onSubmit} extraClass={burgerContructorStyles.submitButton}
+                    disabled={!bun}
                     
                 >
                     {loading && <Loader />} Оформить заказ 
