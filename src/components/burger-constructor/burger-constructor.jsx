@@ -12,16 +12,19 @@ import { v4 as uuidv4 } from 'uuid';
 import { setOrder, getOderNumber, cleanOrder } from '../../services/order';
 import { cleanError } from '../../services/order';
 import Loader from '../loader/loader';
+import { useNavigate } from 'react-router-dom';
 
 function BurgerConstructor() {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const bun = useSelector(getBun);
     const ingredients = useSelector(getConstructorIngredients);
     const totalPrice = useSelector(getTotalPrice);
     const orderNumber = useSelector(getOderNumber);
     const { loading, error } = useSelector((store) => store.order);
+    const user = useSelector((store) => store.user.user);
     
 
     const [{ itemType, isOver }, ref] = useDrop(() => ({
@@ -67,10 +70,14 @@ function BurgerConstructor() {
     }
 
     const onSubmit = React.useCallback(async () => {
-        await dispatch(setOrder([bun?._id, ...ingredients.map(i => i._id), bun?._id]));
-        dispatch(clean());
-        
-    }, [dispatch, bun, ingredients]);
+        if (user){
+            await dispatch(setOrder([bun?._id, ...ingredients.map(i => i._id), bun?._id]));
+            dispatch(clean());
+        } else {
+            navigate('/login');
+        }
+       
+    }, [dispatch, bun, ingredients, navigate, user]);
 
     const onClose = React.useCallback(() => {
         dispatch(cleanOrder());
@@ -115,10 +122,10 @@ function BurgerConstructor() {
                     disabled={!bun}
                     
                 >
-                    {loading && <Loader />} Оформить заказ 
+                    {loading && <Loader />} Оформить заказ
                 </Button>
             </div>
-            {error && <h4 className={burgerContructorStyles.errorMessage}>{`Ошибка ${error}`}</h4>}
+            {error && <h4 className='errorMessage'>{`Ошибка ${error}`}</h4>}
             { orderNumber && !error && !loading &&
                 <Modal header={'hello'} onClose={onClose}><OrderDetails orderNumber={orderNumber}/></Modal>
             }

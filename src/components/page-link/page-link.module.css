@@ -1,0 +1,9 @@
+.navWrapper {
+    display: flex;
+    gap: 8px;
+}
+
+.navLink {
+    color: var(--colors-interface-accent);
+    text-decoration: none;
+}

@@ -2,10 +2,14 @@ import React from 'react';
 import ingredientDetailsStyles from './ingredient-details.module.css';
 import IngredientDetail from './ingredient-detail'
 import { useSelector } from 'react-redux';
-import { getSelectedIngredient } from '../../../services/details';
+import { getIngredientById } from '../../../services/ingredients';
+import { useParams } from 'react-router-dom';
 
 function IngredientDetails() {
-    const { name, image_large, calories, proteins, fat, carbohydrates } = useSelector(getSelectedIngredient);
+
+    const { ingredientId } = useParams();
+
+    const { name, image_large, calories, proteins, fat, carbohydrates } = useSelector(getIngredientById(ingredientId))
 
     return (
         <div className={ingredientDetailsStyles.wrapper}>

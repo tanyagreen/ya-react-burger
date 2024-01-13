@@ -6,11 +6,13 @@ import NavButton from './nav-button/nav-button';
 const buttons = [
     {
         text: 'Конструктор заказов',
-        icon: <BurgerIcon type='primary' />,
+        icon: <BurgerIcon type='secondary' />,
+        to: '/',
     },
     {
         text: 'Лента заказов',
         icon: <ListIcon type='secondary' />,
+        to: '/feed',
     },
 ];
 
@@ -20,11 +22,11 @@ function Header() {
             <div className={`${headerStyles.wrapper} pt-4 pb-4`}>
                 <nav className={headerStyles.nav}>
                     {buttons.map((button, i) => {
-                        return <NavButton text={button.text} icon={button.icon} key={i} />;
+                        return <NavButton text={button.text} icon={button.icon} to={button.to} key={i} />;
                     })}
                 </nav>
                 <Logo />
-                <NavButton text='Личный кабинет' icon={<ProfileIcon type='primary' />} styles={{ marginRight: 0 }} />
+                <NavButton text='Личный кабинет' icon={<ProfileIcon type='secondary' />} to='/profile' />
             </div>
         </header>
     );

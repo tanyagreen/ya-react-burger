@@ -72,9 +72,4 @@
     position: relative;
 }
 
-.errorMessage {
-    text-align-last: end;
-    color: var(--colors-interface-error);
-}
-
 

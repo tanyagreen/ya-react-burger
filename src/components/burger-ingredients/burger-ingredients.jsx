@@ -6,7 +6,6 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal';
 import IngredientDetails from './ingredient-details/ingredient-details';
 import { IngredientKind } from '../../constants/ingredientKind';
-import { getIngredientsByType } from '../../services/ingredients';
 import { clear, getSelectedIngredient } from '../../services/details';
 
 const tabs = [
