@@ -22,36 +22,39 @@ function LoginPage() {
         dispatch(cleanError())
     }, [dispatch]);
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
         dispatch(userLogin(stateInputs));
     }
 
     return (
         <main className={pageStyles.main}>
             <h1 className='text text_type_main-large'>Вход</h1>
-            <EmailInput
-                onChange={handleChange}
-                value={stateInputs?.email}
-                name={'email'}
-                isIcon={false}
-            />
-            <PasswordInput
-                onChange={handleChange}
-                value={stateInputs?.password}
-                name={'password'}
-                extraClass='mb-2'
-            />
-            {error && <h4 className='errorMessage'>{ error }</h4>}
-            <Button 
-                htmlType='button'
-                type='primary'
-                size='large'
-                extraClass='mb-20'
-                onClick={handleSubmit}
-                disabled={disableSubmit}
-            >
-                {loading && <Loader />} Войти
-            </Button>
+            <form onSubmit={handleSubmit} className={pageStyles.formWrapper}>
+                <EmailInput
+                    onChange={handleChange}
+                    value={stateInputs?.email}
+                    name={'email'}
+                    isIcon={false}
+                />
+                <PasswordInput
+                    onChange={handleChange}
+                    value={stateInputs?.password}
+                    name={'password'}
+                    extraClass='mb-2'
+                />
+                {error && <h4 className='errorMessage'>{ error }</h4>}
+                <Button 
+                    htmlType='submit'
+                    type='primary'
+                    size='large'
+                    extraClass='mb-20'
+                    onClick={handleSubmit}
+                    disabled={disableSubmit}
+                >
+                    {loading && <Loader />} Войти
+                </Button>
+            </form>
 
             <PageLink text='Вы — новый пользователь?' linkText='Зарегистрироваться' to='/register'/>
             <PageLink text='Забыли пароль?' linkText='Восстановить пароль' to='/forgot-password'/>         

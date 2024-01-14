@@ -84,7 +84,6 @@ const userLogin = async (data) => {
 };
 
 const userLogout = async () => {
-    console.log('refreshToken', localStorage.getItem('refreshToken'));
     return request(`${BASE_URL}/auth/logout`, {
         method: 'POST',
         headers: {

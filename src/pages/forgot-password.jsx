@@ -13,7 +13,8 @@ function ForgotPasswordPage() {
     });
     const navigate = useNavigate();
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         passwordReset(stateInputs).then(() => {
             localStorage.setItem('resetPassword', true);
             navigate('/reset-password');          
@@ -24,22 +25,23 @@ function ForgotPasswordPage() {
     return (
         <main className={pageStyles.main}>
             <h1 className='text text_type_main-large'>Восстановление пароля</h1>
-            <EmailInput
-                onChange={handleChange}
-                value={stateInputs.email}
-                name={'email'}
-                placeholder='Укажите e-mail'
-                isIcon={false}
-            />
-            <Button 
-                htmlType='button' 
-                type='primary' 
-                size='large' 
-                extraClass='mb-20'
-                onClick={handleSubmit}
-            >
-                Восстановить
-            </Button>
+            <form onSubmit={handleSubmit} className={pageStyles.formWrapper}>
+                <EmailInput
+                    onChange={handleChange}
+                    value={stateInputs.email}
+                    name={'email'}
+                    placeholder='Укажите e-mail'
+                    isIcon={false}
+                />
+                <Button 
+                    htmlType='submit' 
+                    type='primary' 
+                    size='large' 
+                    extraClass='mb-20'
+                >
+                    Восстановить
+                </Button>
+            </form>
 
             <PageLink text='Вспомнили пароль?' linkText='Войти' to='/login'/>    
         </main>

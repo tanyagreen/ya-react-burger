@@ -34,53 +34,55 @@ function User() {
         clearForm();
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
         dispatch(userPatch(stateInputs));
     }
 
     return (
         <div className={pageStyles.formWrapper}>
-              <Input
-                type={'text'}
-                placeholder={'Имя'}
-                onChange={handleChange}
-                value={stateInputs.name}
-                name={'name'}
-                error={false}
-                errorText={'Ошибка'}
-                size={'default'}
-                icon='EditIcon'
-                extraClass="ml-1"
-            />
-            <EmailInput
-                onChange={handleChange}
-                value={stateInputs.email}
-                name={'email'}
-                icon='EditIcon'
-            />
-            <PasswordInput
-                onChange={handleChange}
-                value={stateInputs.password}
-                name={'password'}
-                icon='EditIcon'
-                extraClass='mb-2'
-            />
-            {
-                submitShown && <div className={profileStyles.submitButtonsWrapper}>
-                    <Button htmlType="button" type="secondary" size="large" onClick={handleClean}>
-                        Отмена
-                    </Button>
-                    <Button 
-                        htmlType="button" 
-                        type="primary" 
-                        size="large"
-                        onClick={handleSubmit}
-                        extraClass={burgerContructorStyles.submitButton}
-                    >
-                        {loading && <Loader />} Сохранить
-                    </Button>
-                </div>
-            }
+            <form onSubmit={handleSubmit} className={pageStyles.formWrapper}>
+                <Input
+                    type={'text'}
+                    placeholder={'Имя'}
+                    onChange={handleChange}
+                    value={stateInputs.name}
+                    name={'name'}
+                    error={false}
+                    errorText={'Ошибка'}
+                    size={'default'}
+                    icon='EditIcon'
+                    extraClass="ml-1"
+                />
+                <EmailInput
+                    onChange={handleChange}
+                    value={stateInputs.email}
+                    name={'email'}
+                    icon='EditIcon'
+                />
+                <PasswordInput
+                    onChange={handleChange}
+                    value={stateInputs.password}
+                    name={'password'}
+                    icon='EditIcon'
+                    extraClass='mb-2'
+                />
+                {
+                    submitShown && <div className={profileStyles.submitButtonsWrapper}>
+                        <Button htmlType="button" type="secondary" size="large" onClick={handleClean}>
+                            Отмена
+                        </Button>
+                        <Button 
+                            htmlType="submit" 
+                            type="primary" 
+                            size="large"
+                            extraClass={burgerContructorStyles.submitButton}
+                        >
+                            {loading && <Loader />} Сохранить
+                        </Button>
+                    </div>
+                }
+            </form>
             {error && <h4 className='errorMessage'>{`Ошибка ${error}`}</h4>}
         </div>
     )

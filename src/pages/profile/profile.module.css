@@ -12,6 +12,14 @@
     height: calc(100vh - 100px);
 }
 
+.formWrapper {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 60px;
+}
+
 .navWrapper {
     display: flex;
     flex-flow: column;

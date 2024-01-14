@@ -21,7 +21,8 @@ function ResetPasswordPage() {
         token: '',
     });
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         passwordResetReset(stateInputs).then(() => {
             localStorage.removeItem('resetPassword')
             navigate('/login');          
@@ -36,6 +37,7 @@ function ResetPasswordPage() {
             : (
                 <main className={pageStyles.main}>
                 <h1 className='text text_type_main-large'>Восстановление пароля</h1>
+                <form onSubmit={handleSubmit} className={pageStyles.formWrapper}>
                 <PasswordInput
                     onChange={handleChange}
                     value={stateInputs.password}
@@ -56,14 +58,14 @@ function ResetPasswordPage() {
                 />
     
                 <Button 
-                    htmlType='button' 
                     type='primary' 
                     size='large' 
                     extraClass='mb-20'
-                    onClick={handleSubmit}
+                    htmlType='submit'
                 >
                     Сохранить
                 </Button>
+                </form>
     
                 <PageLink text='Вспомнили пароль?' linkText='Войти' to='/login'/>
            

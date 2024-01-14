@@ -27,13 +27,17 @@ export const userPatch = createAsyncThunk('user/patch', async (userData) => {
     return response.user;
 });
 
-export const getUserFromAPI = () => {
-    return (dispatch) => {
-        return userAPI.getUser().then((res) => {
-            dispatch(userSlice.actions.setUser(res.user));
-        });
-    };
-};
+export const getUserFromAPI = createAsyncThunk('user/get', async (userData) => {
+    const response = await userAPI.getUser();
+    return response.user;
+});
+
+export const userLogout = createAsyncThunk('user/logout', async (userData) => {
+    const response = await userAPI.userLogout();
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    return response.user;
+});
 
 export const checkUserAuth = () => {
     return async (dispatch) => {
@@ -48,16 +52,6 @@ export const checkUserAuth = () => {
         } else {
             dispatch(userSlice.actions.setAuthChecked(true));
         }
-    };
-};
-
-export const userLogout = () => {
-    return (dispatch) => {
-        return userAPI.userLogout().then((res) => {
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
-            dispatch(userSlice.actions.setUser(null));
-        });
     };
 };
 
@@ -117,6 +111,32 @@ export const userSlice = createSlice({
                 state.loading = false;
             })
             .addCase(userPatch.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
+            })
+
+            .addCase(getUserFromAPI.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getUserFromAPI.fulfilled, (state, action) => {
+                state.user = action.payload;
+                state.loading = false;
+            })
+            .addCase(getUserFromAPI.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
+            })
+
+            .addCase(userLogout.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(userLogout.fulfilled, (state) => {
+                state.user = null;
+                state.loading = false;
+            })
+            .addCase(userLogout.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message;
             });
