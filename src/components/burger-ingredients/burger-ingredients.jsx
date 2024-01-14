@@ -92,7 +92,7 @@ function BurgerIngredients() {
                 }
             </div>
             { selectedIngredient &&
-                <Modal title='Детали ингридиента' onClose={onClose}>
+                <Modal onClose={onClose}>
                     <IngredientDetails/>
                 </Modal>
             }

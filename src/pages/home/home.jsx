@@ -9,14 +9,12 @@ import HomeStyles from './home.module.css';
 
 function Home() {
     return (
-        <>
-            <DndProvider backend={HTML5Backend}>
-                <main className={HomeStyles.main}>
-                    <BurgerIngredients />
-                    <BurgerConstructor />
-                </main>
-            </DndProvider>
-        </>
+        <DndProvider backend={HTML5Backend}>
+            <main className={HomeStyles.main}>
+                <BurgerIngredients />
+                <BurgerConstructor />
+            </main>
+        </DndProvider>
     );
 }
 

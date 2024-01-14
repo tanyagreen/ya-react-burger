@@ -127,7 +127,7 @@ function BurgerConstructor() {
             </div>
             {error && <h4 className='errorMessage'>{`Ошибка ${error}`}</h4>}
             { orderNumber && !error && !loading &&
-                <Modal header={'hello'} onClose={onClose}><OrderDetails orderNumber={orderNumber}/></Modal>
+                <Modal onClose={onClose}><OrderDetails orderNumber={orderNumber}/></Modal>
             }
         </div>
     );

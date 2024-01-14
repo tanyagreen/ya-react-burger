@@ -13,6 +13,7 @@ function IngredientDetails() {
 
     return (
         <div className={ingredientDetailsStyles.wrapper}>
+            <p className={`text text_type_main-large ${ingredientDetailsStyles.title}`}>Детали ингридиента</p>
             <img className='pl-4 pr-4' src={image_large} alt={name}/>
             <p className='text text_type_main-medium mt-4 mb-8' >{name}</p>
             <div className={ingredientDetailsStyles.details}>

@@ -49,7 +49,6 @@ function LoginPage() {
                     type='primary'
                     size='large'
                     extraClass='mb-20'
-                    onClick={handleSubmit}
                     disabled={disableSubmit}
                 >
                     {loading && <Loader />} Войти
