@@ -1,0 +1,24 @@
+.main {
+    margin: auto;
+    width: 1280px;
+
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+
+    height: calc(100vh - 100px);
+}
+
+.submitButton {
+    position: relative;
+}
+
+.formWrapper {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+}

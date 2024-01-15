@@ -1,0 +1,46 @@
+.main {
+    margin: auto;
+    margin-top: 150px;
+    width: 1280px;
+
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 60px;
+
+    height: calc(100vh - 100px);
+}
+
+.formWrapper {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 60px;
+}
+
+.navWrapper {
+    display: flex;
+    flex-flow: column;
+}
+
+.profileLink {
+    width: 320px;
+    height: 64px;
+}
+
+.submitButtonsWrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 20px;
+}
+
+.buttonAsLink {
+    background-color: transparent;
+    border: 0;
+    text-align: left;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+}

@@ -9,7 +9,7 @@ const modalRoot = document.getElementById('react-modals');
 
 function Modal(props){
 
-    const { children, title, onClose } = props;
+    const { children, onClose } = props;
 
     React.useEffect(() => {
         const handleKeyDown =  e => {
@@ -29,7 +29,6 @@ function Modal(props){
                     <div className={modalStyles.wrapper}>
                         <div className={`${modalStyles.modal} pl-10 pr-10 pt-10 pb-15`}>
                             <div className={modalStyles.header}>
-                                <p className="text text_type_main-large">{title}</p>
                                 <span className={modalStyles.icon}>
                                 <CloseIcon type="primary" onClick={onClose} />
                                 </span>
@@ -48,7 +47,6 @@ function Modal(props){
 
 Modal.propTypes = {
     children: PropTypes.element,
-    title: PropTypes.string,
     onClose: PropTypes.func.isRequired,
 }
 

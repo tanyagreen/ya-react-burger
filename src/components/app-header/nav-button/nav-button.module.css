@@ -1,7 +1,6 @@
 .navButton {
     border: none;
     font: inherit;
-    color: inherit;
     background-color: transparent;
     cursor: pointer;
 
@@ -10,11 +9,5 @@
     align-items: center;
     gap: 8px;
 
-    border-radius: 40px;
-
-    
-}
-
-.navButton:active, .navButton:nth-child(2){
-    color: #8585AD;
+    border-radius: 40px;  
 }
