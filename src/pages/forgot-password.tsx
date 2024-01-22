@@ -1,26 +1,27 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import pageStyles from './pages.module.css';
 import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import PageLink from '../components/page-link/page-link';
 import useForm from '../hooks/use-form';
 import { passwordReset } from '../utils/api';
+import { IUser } from '../utils/user-type';
 
 function ForgotPasswordPage() {
-
-    const {stateInputs, handleChange} = useForm({
+    const { stateInputs, handleChange } = useForm<IUser>({
         email: '',
     });
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
-        passwordReset(stateInputs).then(() => {
-            localStorage.setItem('resetPassword', true);
-            navigate('/reset-password');          
-        })
-        .catch(err => console.log(err));
-    }
+        passwordReset(stateInputs)
+            .then(() => {
+                localStorage.setItem('resetPassword', 'true');
+                navigate('/reset-password');
+            })
+            .catch((err: string) => console.log(err));
+    };
 
     return (
         <main className={pageStyles.main}>
@@ -33,17 +34,12 @@ function ForgotPasswordPage() {
                     placeholder='Укажите e-mail'
                     isIcon={false}
                 />
-                <Button 
-                    htmlType='submit' 
-                    type='primary' 
-                    size='large' 
-                    extraClass='mb-20'
-                >
+                <Button htmlType='submit' type='primary' size='large' extraClass='mb-20'>
                     Восстановить
                 </Button>
             </form>
 
-            <PageLink text='Вспомнили пароль?' linkText='Войти' to='/login'/>    
+            <PageLink text='Вспомнили пароль?' linkText='Войти' to='/login' />
         </main>
     );
 }

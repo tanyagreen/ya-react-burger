@@ -1,10 +1,10 @@
 import React from 'react';
 import headerStyles from './app-header.module.css';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import NavButton from './nav-button/nav-button';
+import NavButton, { INavButtonProps } from './nav-button/nav-button';
 import { NavLink } from 'react-router-dom';
 
-const buttons = [
+const buttons: INavButtonProps[] = [
     {
         text: 'Конструктор заказов',
         icon: <BurgerIcon type='secondary' />,
@@ -17,7 +17,7 @@ const buttons = [
     },
 ];
 
-function Header() {
+function Header(): JSX.Element {
     return (
         <header className={headerStyles.header}>
             <div className={`${headerStyles.wrapper} pt-4 pb-4`}>

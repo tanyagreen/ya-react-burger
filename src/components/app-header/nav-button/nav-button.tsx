@@ -1,9 +1,14 @@
 import React from 'react';
 import navButtonStyles from './nav-button.module.css';
 import { NavLink } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
-function NavButton({ to = '/', ...props }) {
+export interface INavButtonProps {
+    icon?: React.ReactNode;
+    text: string;
+    to: string;
+}
+
+function NavButton({ to = '/', ...props }: INavButtonProps): JSX.Element {
     return (
         <NavLink
             className={({ isActive }) =>
@@ -16,11 +21,5 @@ function NavButton({ to = '/', ...props }) {
         </NavLink>
     );
 }
-
-NavButton.propTypes = {
-    icon: PropTypes.element,
-    text: PropTypes.string.isRequired,
-    to: PropTypes.string,
-};
 
 export default NavButton;

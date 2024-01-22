@@ -22,21 +22,27 @@ import { getIngredients } from '../../services/ingredients';
 import { checkUserAuth } from '../../services/user';
 import Loader from '../loader/loader';
 import { OnlyAuth, OnlyUnAuth } from '../protected-route';
+import { IIngredient } from '../../utils/ingredient-type';
 
 function App() {
     const location = useLocation();
     const navigate = useNavigate();
-    const background = location.state && location.state.background;
+    const background: string = location.state && location.state.background;
 
     const handleModalClose = () => {
         navigate(-1);
     };
 
     const dispatch = useDispatch();
-    const { loading, error, ingredients } = useSelector((store) => store.ingredients);
+
+    const { loading, error, ingredients }: { loading: boolean; error: string; ingredients: IIngredient[] } =
+        //@ts-ignore
+        useSelector((store) => store.ingredients);
 
     React.useEffect(() => {
+        //@ts-ignore
         dispatch(getIngredients());
+        //@ts-ignore
         dispatch(checkUserAuth());
     }, [dispatch]);
 

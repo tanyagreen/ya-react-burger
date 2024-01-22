@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import pageStyles from './pages.module.css';
 import { Input, PasswordInput, EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import PageLink from '../components/page-link/page-link';
@@ -6,27 +6,29 @@ import useForm from '../hooks/use-form';
 import { userRegister, cleanError } from '../services/user';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/loader/loader';
+import { IUserFull } from '../utils/user-type';
 
 function RegisterPage() {
-      
-    const { stateInputs, handleChange, disableSubmit } = useForm({
+    const { stateInputs, handleChange, disableSubmit } = useForm<IUserFull>({
         name: '',
         email: '',
         password: '',
     });
 
+    //@ts-ignore
     const { loading, error } = useSelector((store) => store.user);
 
     const dispatch = useDispatch();
 
     React.useEffect(() => {
-        dispatch(cleanError())
+        dispatch(cleanError());
     }, [dispatch]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: SyntheticEvent) => {
         e.preventDefault();
+        //@ts-ignore
         dispatch(userRegister(stateInputs));
-    }
+    };
 
     return (
         <main className={pageStyles.main}>
@@ -36,43 +38,36 @@ function RegisterPage() {
                     type={'text'}
                     placeholder={'Имя'}
                     onChange={handleChange}
-                    value={stateInputs.name}
+                    value={stateInputs.name || ''}
                     name={'name'}
                     error={false}
                     errorText={'Ошибка'}
                     size={'default'}
-                    extraClass="ml-1"
+                    extraClass='ml-1'
                 />
-                <EmailInput
-                    onChange={handleChange}
-                    value={stateInputs.email}
-                    name={'email'}
-                    isIcon={false}
-                />
+                <EmailInput onChange={handleChange} value={stateInputs.email} name={'email'} isIcon={false} />
                 <PasswordInput
                     onChange={handleChange}
-                    value={stateInputs.password}
+                    value={stateInputs.password || ''}
                     name={'password'}
                     extraClass='mb-2'
                 />
-                
-                {error && <h4 className='errorMessage'>{ error }</h4>}
-                
-                <Button 
+
+                {error && <h4 className='errorMessage'>{error}</h4>}
+
+                <Button
                     onClick={handleSubmit}
-                    htmlType='submit' 
-                    type='primary' 
-                    size='large' 
-                    extraClass={`'mb-20' ${pageStyles.submitButton}` }
+                    htmlType='submit'
+                    type='primary'
+                    size='large'
+                    extraClass={`'mb-20' ${pageStyles.submitButton}`}
                     disabled={disableSubmit}
                 >
                     {loading && <Loader />} Зарегистрироваться
                 </Button>
             </form>
 
-
-            <PageLink text='Уже зарегистрированы?' linkText='Войти' to='/login'/>
-       
+            <PageLink text='Уже зарегистрированы?' linkText='Войти' to='/login' />
         </main>
     );
 }

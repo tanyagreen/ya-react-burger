@@ -1,10 +1,10 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, ChangeEvent } from 'react';
 
-const useForm = (initState = {}, onChange) => {
+const useForm = <T = {}>(initState: T, onChange?: (e?: ChangeEvent<HTMLInputElement>) => void) => {
     const [stateInputs, setStateInputs] = useState(initState);
 
     const handleChange = useCallback(
-        (e = null) => {
+        (e: ChangeEvent<HTMLInputElement>) => {
             setStateInputs((stateInputs) => ({ ...stateInputs, [e.target.name]: e.target.value }));
             if (typeof onChange === 'function') {
                 onChange(e);
@@ -17,7 +17,7 @@ const useForm = (initState = {}, onChange) => {
         setStateInputs(initState);
     }, [initState]);
 
-    const disableSubmit = Object.values(stateInputs).some((val) => val === '');
+    const disableSubmit = Object.values(stateInputs as {}).some((val) => val === '');
 
     return { stateInputs, handleChange, disableSubmit, clearForm };
 };
