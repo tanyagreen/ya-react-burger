@@ -1,11 +1,15 @@
 import React from 'react';
 import pageLinkStyles from './page-link.module.css';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
+interface IPageLinkProps {
+    text: string;
+    linkText: string;
+    to: string;
+}
 
-const PageLink = (props) => {
-    const {text, linkText, to} = props;
+const PageLink = (props: IPageLinkProps) => {
+    const { text, linkText, to } = props;
 
     return (
         <div className={pageLinkStyles.navWrapper}>
@@ -14,13 +18,6 @@ const PageLink = (props) => {
                 <span className='text text_type_main-medium'>{linkText}</span>
             </Link>
         </div>
-    )
-}
-
-PageLink.propTypes = {
-    text: PropTypes.string.isRequired,
-    linkText: PropTypes.string.isRequired,
-    to: PropTypes.string.isRequired,
+    );
 };
-
 export default PageLink;

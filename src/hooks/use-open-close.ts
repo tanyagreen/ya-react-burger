@@ -1,6 +1,9 @@
 import React, { useEffect, useCallback } from 'react';
 
-const useOpenClose = (initOpen = false, { onOpen, onClose } = {}) => {
+const useOpenClose = (
+    initOpen: boolean,
+    { onOpen, onClose }: { onOpen?: (args: unknown) => void; onClose?: (args: unknown) => void }
+) => {
     const [isOpen, setOpen] = React.useState(initOpen);
 
     useEffect(() => {
