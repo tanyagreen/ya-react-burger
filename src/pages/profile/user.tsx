@@ -4,20 +4,19 @@ import profileStyles from './profile.module.css';
 import burgerContructorStyles from '../../components/burger-constructor/burger-constructor.module.css';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import useForm from '../../hooks/use-form';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../../services/store';
 import { cleanError, userPatch } from '../../services/user';
 import Loader from '../../components/loader/loader';
-import { IUserFull } from '../../utils/user-type';
+import { IUser } from '../../services/types/user-type';
 
 function User() {
-    //@ts-ignore
-    const { name, email, loading, error } = useSelector((store) => store.user.user);
+    const { user, loading, error } = useSelector((store) => store.user);
     const dispatch = useDispatch();
 
-    const { stateInputs, handleChange, clearForm } = useForm<IUserFull>(
+    const { stateInputs, handleChange, clearForm } = useForm<IUser>(
         {
-            name: name,
-            email: email,
+            name: user?.name || '',
+            email: user?.email || '',
             password: '',
         },
         () => {
@@ -38,7 +37,6 @@ function User() {
 
     const handleSubmit = (e: SyntheticEvent) => {
         e.preventDefault();
-        //@ts-ignore
         dispatch(userPatch(stateInputs));
     };
 

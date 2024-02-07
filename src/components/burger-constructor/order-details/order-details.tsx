@@ -2,7 +2,7 @@ import React from 'react';
 import orderDetailsStyles from './order-details.module.css';
 
 interface IOrderDetails {
-    orderNumber: string;
+    orderNumber: number;
 }
 
 function OrderDetails({ orderNumber }: IOrderDetails) {

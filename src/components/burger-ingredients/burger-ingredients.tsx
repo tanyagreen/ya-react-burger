@@ -1,13 +1,8 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import ingredientsStyles from './burger-ingredients.module.css';
 import BurgerIngredientsGroup from './bi-group/bi-group';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import Modal from '../modal/modal';
-import IngredientDetails from './ingredient-details/ingredient-details';
-import { clear, getSelectedIngredient } from '../../services/details';
-
-import { IIngredient, EIngredientKind } from '../../utils/ingredient-type';
+import { EIngredientKind } from '../../services/types/ingredient-type';
 
 export interface ITab {
     id: EIngredientKind;
@@ -59,14 +54,6 @@ function BurgerIngredients(): JSX.Element {
         }
     }, []);
 
-    const dispatch = useDispatch();
-
-    const selectedIngredient: IIngredient = useSelector(getSelectedIngredient);
-
-    const onClose = React.useCallback(() => {
-        dispatch(clear());
-    }, [dispatch]);
-
     return (
         <div className={`${ingredientsStyles.wrapper} mt-10`}>
             <h1 className='text text_type_main-large'>Соберите бургер</h1>
@@ -89,11 +76,6 @@ function BurgerIngredients(): JSX.Element {
                     return <BurgerIngredientsGroup title={tab.text} ref={refCallback} id={tab.id} key={tab.id} />;
                 })}
             </div>
-            {selectedIngredient && (
-                <Modal onClose={onClose}>
-                    <IngredientDetails />
-                </Modal>
-            )}
         </div>
     );
 }

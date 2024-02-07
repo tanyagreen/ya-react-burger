@@ -1,13 +1,8 @@
-import React from "react";
+import React from 'react';
+import OrdersList from '../../components/list-orders/list-orders';
 
 function Orders() {
-
-
-    return (
-        <div style={{width: 484}}>
-            Orders
-        </div>
-    )
+    return <OrdersList />;
 }
 
 export default Orders;

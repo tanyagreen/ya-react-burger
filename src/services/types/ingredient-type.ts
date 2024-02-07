@@ -22,3 +22,7 @@ export interface IIngredient {
 export interface IIngredientWithKey extends IIngredient {
     key: string;
 }
+
+export interface IIngredientCounter extends Record<IIngredient['_id'], number> {}
+
+export interface IIngredientMap extends Map<IIngredient['_id'], IIngredient> {}

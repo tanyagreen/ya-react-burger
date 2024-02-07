@@ -1,7 +1,7 @@
 import React from 'react';
 import profileStyles from './profile.module.css';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/store';
 import { userLogout } from '../../services/user';
 
 function Profile() {
@@ -21,7 +21,6 @@ function Profile() {
     };
 
     const userLogoutHandler = () => {
-        //@ts-ignore
         dispatch(userLogout());
     };
 

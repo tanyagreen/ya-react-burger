@@ -1,24 +1,33 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
+import { IIngredientCounter, IIngredientWithKey } from './types/ingredient-type';
+import { RootState } from './store';
 
-export const burgerConstructorInitialState = {
+type TConstructorActionCreators = typeof burgerConstructorSlice.actions;
+export type TConstructorActions = ReturnType<TConstructorActionCreators[keyof TConstructorActionCreators]>;
+
+interface IConstructorStore {
+    ingredients: IIngredientWithKey[];
+    bun: IIngredientWithKey | null;
+}
+export const burgerConstructorInitialState: IConstructorStore = {
     ingredients: [],
     bun: null,
 };
 
 export const getBun = createSelector(
-    (store) => store.burgerConstructor,
+    (store: RootState) => store.burgerConstructor,
     (burgerConstructor) => burgerConstructor.bun
 );
 
 export const getConstructorIngredients = createSelector(
-    (store) => store.burgerConstructor,
+    (store: RootState) => store.burgerConstructor,
     (burgerConstructor) => burgerConstructor.ingredients
 );
 
 export const ingredientCounter = createSelector(
-    (store) => store.burgerConstructor,
+    (store: RootState) => store.burgerConstructor,
     (burgerConstructor) => {
-        const counterIngridients = burgerConstructor.ingredients.reduce((acc, item) => {
+        const counterIngridients = burgerConstructor.ingredients.reduce<IIngredientCounter>((acc, item) => {
             acc[item._id] = (acc[item._id] || 0) + 1;
             return acc;
         }, {});
@@ -29,15 +38,16 @@ export const ingredientCounter = createSelector(
 );
 
 export const getTotalPrice = createSelector(
-    (store) => store.burgerConstructor,
+    (store: RootState) => store.burgerConstructor,
     (burgerConstructor) => {
-        let totalPrice = burgerConstructor.ingredients.reduce((sum, item) => {
+        let totalPrice = burgerConstructor.ingredients.reduce<number>((sum, item) => {
             sum += item.price;
             return sum;
         }, 0);
 
-        totalPrice = burgerConstructor.bun && totalPrice + burgerConstructor.bun?.price * 2;
-
+        if (burgerConstructor.bun) {
+            totalPrice += burgerConstructor.bun?.price * 2;
+        }
         return totalPrice || 0;
     }
 );

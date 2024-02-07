@@ -2,11 +2,11 @@ import React from 'react';
 import burgerContructorStyles from '../burger-constructor.module.css';
 import burgerElementStyles from './bc-element.module.css';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../../services/store';
 import { deleteItem, sorting } from '../../../services/burger-constructor';
 import { useDrag, useDrop } from 'react-dnd';
 import type { Identifier } from 'dnd-core';
-import { IIngredientWithKey } from '../../../utils/ingredient-type';
+import { IIngredientWithKey } from '../../../services/types/ingredient-type';
 
 interface BurgerConstructorElementProps {
     ingredient: IIngredientWithKey;
