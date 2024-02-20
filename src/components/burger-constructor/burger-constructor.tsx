@@ -90,7 +90,7 @@ function BurgerConstructor() {
     }, [dispatch]);
 
     return (
-        <div className={`${burgerContructorStyles.wrapper} mt-25`} ref={ref}>
+        <div className={`${burgerContructorStyles.wrapper} mt-25`} ref={ref} data-testid='constructor'>
             {bunRender('top')}
 
             <ul className={`${burgerContructorStyles.outerCardsWrapper} сute-scroll`}>

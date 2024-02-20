@@ -6,7 +6,7 @@ interface IModalProps {
 }
 
 function ModalOverlay({ onClose }: IModalProps): React.JSX.Element {
-    return <div className={modalOverlayStyles.overlay} onClick={onClose} />;
+    return <div className={modalOverlayStyles.overlay} onClick={onClose} data-testid='close-modal-overlay' />;
 }
 
 export default ModalOverlay;
