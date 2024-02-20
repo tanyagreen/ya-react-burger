@@ -1,24 +1,32 @@
-import { IIngredient } from './ingredient-type';
-import { IUser, IUserFull } from './user-type';
+import { IIngredient } from '../services/types/ingredient-type';
+import { IUser } from '../services/types/user-type';
+import { IOrder } from '../services/types/order-type';
+import { BASE_URL } from './urls';
 
-const BASE_URL: string = 'https://norma.nomoreparties.space/api';
-
-interface IResponse {
+export interface IResponse {
     success: boolean;
     message?: string;
 }
 
-interface IOrder {
-    [key: string]: unknown;
-    number: number;
+interface IResponseIngredients<D = []> extends IResponse {
+    data: D;
 }
 
-interface IToken extends IResponse {
+interface IResponseUser<U = {}> extends IResponse {
+    user: U;
+}
+
+interface IResponseOrder<O = {}> extends IResponse {
+    order: O;
+    name: string;
+}
+
+export interface IToken extends IResponse {
     accessToken: string;
     refreshToken: string;
 }
 
-const checkResponse = <T>(result: Response): Promise<T> => {
+const checkResponse = async <T>(result: Response): Promise<T> => {
     if (result.ok) {
         return result.json();
     }
@@ -29,21 +37,30 @@ const request = async <T>(url: string, options = {}): Promise<T> => {
     return fetch(url, options).then(checkResponse<T>);
 };
 
-const fetchIngridients = async (): Promise<IIngredient[]> => {
+const fetchIngredients = async (): Promise<IResponseIngredients<IIngredient[]>> => {
     return request(`${BASE_URL}/ingredients`);
 };
 
-const fetchOrder = async (ingridients: IIngredient[]): Promise<IOrder> => {
+const fetchOrder = async (ingredients: IIngredient['_id'][]): Promise<IResponseOrder<IOrder>> => {
     return fetchWithRefresh(`${BASE_URL}/orders`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
         },
-        body: JSON.stringify(ingridients),
+        body: JSON.stringify({ ingredients: ingredients }),
     });
 };
 
-const refreshToken = (): Promise<IToken> => {
+export const getOrder = async (numOrder: IOrder['number']): Promise<{ orders: IOrder[] }> => {
+    return request(`${BASE_URL}/orders/${numOrder}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+        },
+    });
+};
+
+export const refreshToken = (): Promise<IToken> => {
     return fetch(`${BASE_URL}/auth/token`, {
         method: 'POST',
         headers: {
@@ -84,7 +101,7 @@ const fetchWithRefresh = async <T>(url: string, options: RequestInit): Promise<T
     }
 };
 
-const userRegister = async (data: IUserFull): Promise<IToken & IUser> => {
+const userRegister = async (data: IUser): Promise<IResponseUser<IUser> & IToken> => {
     return request(`${BASE_URL}/auth/register`, {
         method: 'POST',
         headers: {
@@ -94,7 +111,7 @@ const userRegister = async (data: IUserFull): Promise<IToken & IUser> => {
     });
 };
 
-const userLogin = async (data: Omit<IUserFull, 'name'>): Promise<IToken & IUser> => {
+const userLogin = async (data: IUser): Promise<IResponseUser<IUser> & IToken> => {
     return request(`${BASE_URL}/auth/login`, {
         method: 'POST',
         headers: {
@@ -116,7 +133,7 @@ const userLogout = async (): Promise<IResponse> => {
     });
 };
 
-const getUser = async (): Promise<IUser> => {
+const getUser = async (): Promise<IResponseUser<IUser>> => {
     return fetchWithRefresh(`${BASE_URL}/auth/user`, {
         method: 'GET',
         headers: {
@@ -125,7 +142,7 @@ const getUser = async (): Promise<IUser> => {
     });
 };
 
-const patchUser = async (data: IUserFull): Promise<IUser> => {
+const patchUser = async (data: IUser): Promise<IResponseUser<IUser>> => {
     return fetchWithRefresh(`${BASE_URL}/auth/user`, {
         method: 'PATCH',
         headers: {
@@ -168,4 +185,4 @@ const auth = {
     fetchWithRefresh,
 };
 
-export { fetchIngridients, fetchOrder, auth, user, passwordReset, passwordResetReset };
+export { fetchIngredients, fetchOrder, auth, user, passwordReset, passwordResetReset };

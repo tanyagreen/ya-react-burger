@@ -15,14 +15,15 @@ import {
     User,
     Orders,
     NotFound404,
+    Feed,
 } from '../../pages';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../../services/store';
 import { getIngredients } from '../../services/ingredients';
 import { checkUserAuth } from '../../services/user';
 import Loader from '../loader/loader';
 import { OnlyAuth, OnlyUnAuth } from '../protected-route';
-import { IIngredient } from '../../utils/ingredient-type';
+import OrderListDetails from '../list-orders/order-list-details/order-list-details';
 
 function App() {
     const location = useLocation();
@@ -35,14 +36,10 @@ function App() {
 
     const dispatch = useDispatch();
 
-    const { loading, error, ingredients }: { loading: boolean; error: string; ingredients: IIngredient[] } =
-        //@ts-ignore
-        useSelector((store) => store.ingredients);
+    const { loading, error, ingredients } = useSelector((store) => store.ingredients);
 
     React.useEffect(() => {
-        //@ts-ignore
         dispatch(getIngredients());
-        //@ts-ignore
         dispatch(checkUserAuth());
     }, [dispatch]);
 
@@ -68,6 +65,12 @@ function App() {
                             <Route path='orders' element={<Orders />} />
                         </Route>
                         <Route path='*' element={<NotFound404 />} />
+                        <Route path='/feed' element={<Feed />} />
+                        <Route path='/feed/:orderId' element={<OrderListDetails />} />
+                        <Route
+                            path='/profile/orders/:orderId'
+                            element={<OnlyAuth component={<OrderListDetails />} />}
+                        />
                     </Routes>
                     {background && (
                         <Routes>
@@ -76,6 +79,22 @@ function App() {
                                 element={
                                     <Modal onClose={handleModalClose}>
                                         <IngredientDetails />
+                                    </Modal>
+                                }
+                            />
+                            <Route
+                                path='/feed/:orderId'
+                                element={
+                                    <Modal onClose={handleModalClose}>
+                                        <OrderListDetails />
+                                    </Modal>
+                                }
+                            />
+                            <Route
+                                path='/profile/orders/:orderId'
+                                element={
+                                    <Modal onClose={handleModalClose}>
+                                        <OrderListDetails />
                                     </Modal>
                                 }
                             />

@@ -5,7 +5,7 @@ import Modal from '../modal/modal';
 import OrderDetails from './order-details/order-details';
 import BurgerConstructorElement from './bc-element/bc-element';
 import { useDrop } from 'react-dnd';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../../services/store';
 import {
     getBun,
     getConstructorIngredients,
@@ -19,8 +19,7 @@ import { setOrder, getOderNumber, cleanOrder } from '../../services/order';
 import { cleanError } from '../../services/order';
 import Loader from '../loader/loader';
 import { useNavigate } from 'react-router-dom';
-import { IIngredient, EIngredientKind, IIngredientWithKey } from '../../utils/ingredient-type';
-import { IUser } from '../../utils/user-type';
+import { IIngredient, EIngredientKind, IIngredientWithKey } from '../../services/types/ingredient-type';
 
 type TBunPosition = 'top' | 'bottom';
 
@@ -28,14 +27,12 @@ function BurgerConstructor() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const bun: IIngredientWithKey = useSelector(getBun);
+    const bun = useSelector(getBun);
     const ingredients: IIngredientWithKey[] = useSelector(getConstructorIngredients);
     const totalPrice = useSelector(getTotalPrice);
     const orderNumber = useSelector(getOderNumber);
-    //@ts-ignore
     const { loading, error } = useSelector((store) => store.order);
-    //@ts-ignore
-    const user: IUser = useSelector((store) => store.user.user);
+    const user = useSelector((store) => store.user.user);
 
     const [{ itemType, isOver }, ref] = useDrop(() => ({
         accept: [EIngredientKind.BUN, 'ingridient'],
@@ -77,9 +74,11 @@ function BurgerConstructor() {
     };
 
     const onSubmit = React.useCallback(async () => {
+        if (!bun) {
+            return;
+        }
         if (user) {
-            //@ts-ignore
-            await dispatch(setOrder([bun?._id, ...ingredients.map((i) => i._id), bun?._id]));
+            await dispatch(setOrder([bun._id, ...ingredients.map((i) => i._id), bun._id]));
             dispatch(clean());
         } else {
             navigate('/login');

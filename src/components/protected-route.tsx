@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useSelector } from '../services/store';
 import { Navigate, useLocation } from 'react-router-dom';
 import Loader from './loader/loader';
 
@@ -8,9 +8,7 @@ interface IProtectedProps {
 }
 
 const Protected = ({ onlyUnAuth = false, component }: IProtectedProps) => {
-    //@ts-ignore
     const isAuthChecked = useSelector((store) => store.user.isAuthChecked);
-    //@ts-ignore
     const user = useSelector((store) => store.user.user);
     const location = useLocation();
 

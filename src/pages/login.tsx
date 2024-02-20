@@ -4,17 +4,16 @@ import { PasswordInput, EmailInput, Button } from '@ya.praktikum/react-developer
 import PageLink from '../components/page-link/page-link';
 import useForm from '../hooks/use-form';
 import { userLogin, cleanError } from '../services/user';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/store';
 import Loader from '../components/loader/loader';
-import { IUserFull } from '../utils/user-type';
+import { IUser } from '../services/types/user-type';
 
 function LoginPage() {
-    const { stateInputs, handleChange, disableSubmit } = useForm<IUserFull>({
+    const { stateInputs, handleChange, disableSubmit } = useForm<IUser>({
         email: '',
         password: '',
     });
 
-    //@ts-ignore
     const { loading, error } = useSelector((store) => store.user);
 
     const dispatch = useDispatch();
@@ -25,7 +24,6 @@ function LoginPage() {
 
     const handleSubmit = (e: SyntheticEvent) => {
         e.preventDefault();
-        //@ts-ignore
         dispatch(userLogin(stateInputs));
     };
 

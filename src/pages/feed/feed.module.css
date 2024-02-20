@@ -1,0 +1,47 @@
+.wrapper {
+    margin: auto;
+    width: 1240px;
+    display: flex;
+    flex-flow: column;
+}
+
+.main {
+    margin: auto;
+    width: 1240px;
+
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding-top: 40px;
+}
+
+.boardWrapper {
+    display: flex;
+    flex-flow: column nowrap;
+    width: 580px;
+    gap: 60px;
+}
+
+.statusesWrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 16px;
+}
+
+.columnWrapper {
+    display: flex;
+    flex-flow: column;
+    gap:16px;
+    width: 200px;
+}
+
+.statuses {
+    display: flex;
+    flex-flow: column wrap;
+    height: 200px;
+    gap: 12px;
+}
+
+.total {
+    
+}

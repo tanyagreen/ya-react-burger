@@ -9,6 +9,7 @@
     display: flex;
     justify-content: center;
     pointer-events: none;
+    z-index: 6;
 }
 
 .modal {
@@ -24,6 +25,8 @@
     justify-content: center;
 
     pointer-events: all;
+
+    z-index: 10;
 }
 
 .header {

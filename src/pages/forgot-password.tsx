@@ -5,7 +5,7 @@ import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-comp
 import PageLink from '../components/page-link/page-link';
 import useForm from '../hooks/use-form';
 import { passwordReset } from '../utils/api';
-import { IUser } from '../utils/user-type';
+import { IUser } from '../services/types/user-type';
 
 function ForgotPasswordPage() {
     const { stateInputs, handleChange } = useForm<IUser>({
