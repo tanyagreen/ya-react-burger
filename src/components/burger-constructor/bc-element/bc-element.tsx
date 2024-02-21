@@ -66,6 +66,7 @@ const BurgerConstructorElement = React.memo((props: BurgerConstructorElementProp
                 return;
             }
             // Time to actually perform the action
+            console.log(dragIndex, hoverIndex);
             dispatch(sorting({ dragIndex, hoverIndex }));
             // Note: we're mutating the monitor item here!
             // Generally it's better to avoid mutations,

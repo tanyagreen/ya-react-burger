@@ -31,7 +31,7 @@ function Modal(props: IModalProps) {
             <div className={modalStyles.wrapper}>
                 <div className={`${modalStyles.modal} pl-10 pr-10 pt-10 pb-15`}>
                     <div className={modalStyles.header}>
-                        <span className={modalStyles.icon}>
+                        <span className={modalStyles.icon} data-testid='close-modal-icon'>
                             <CloseIcon type='primary' onClick={onClose} />
                         </span>
                     </div>
